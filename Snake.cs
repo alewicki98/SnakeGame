@@ -1,14 +1,19 @@
-﻿public class Snake
+using System;
+using System.Collections.Generic;
+
+public class Snake
 {
     private Pixel head;
     private List<int> bodyPositions;
     private string movement;
+    private int score;
 
     public Snake(int initialX, int initialY)
     {
         head = new Pixel(initialX, initialY, ConsoleColor.Green, "■");
         bodyPositions = new List<int>();
         movement = "RIGHT";
+        score = 0;
     }
 
     public Pixel Head => head;
@@ -88,11 +93,33 @@
     {
         Console.Clear();
         Console.ForegroundColor = ConsoleColor.Red;
+
         Console.SetCursorPosition(Console.WindowWidth / 5, Console.WindowHeight / 2);
         Console.WriteLine("Game Over");
+
         Console.SetCursorPosition(Console.WindowWidth / 5, Console.WindowHeight / 2 + 1);
         Console.WriteLine("Your Score is: " + bodyPositions.Count / 2);
+
         Console.SetCursorPosition(Console.WindowWidth / 5, Console.WindowHeight / 2 + 2);
-        Environment.Exit(0);
+        Console.WriteLine("Press 'R' to restart or any other key to exit.");
+
+        ConsoleKeyInfo keyInfo = Console.ReadKey();
+
+        if (keyInfo.Key == ConsoleKey.R)
+        {
+            InitializeGame();
+        }
+        else
+        {
+            Environment.Exit(0);
+        }
+    }
+
+    private void InitializeGame()
+    {
+        head = new Pixel(Console.WindowWidth / 2, Console.WindowHeight / 2, ConsoleColor.Green, "■");
+        bodyPositions.Clear();
+        movement = "RIGHT";
+        score = 0;
     }
 }
